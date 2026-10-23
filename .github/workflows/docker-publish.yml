@@ -41,9 +41,9 @@ jobs:
       - name: Get versions to build
         id: versions
         run: |
-          # Get all existing tags from Docker Hub
+          # Get all existing tags from Docker Hub (only v1.0.0 and above are maintained)
           ALL_VERSIONS=$(curl -s "https://hub.docker.com/v2/repositories/arpeio/fastbcp/tags/?page_size=100" | \
-            jq -r '.results[].name' | grep '^v[0-9]' | sort -V)
+            jq -r '.results[].name' | grep -E '^v[1-9][0-9]*\.' | sort -V)
           
           # Find the latest version of each minor branch (e.g., latest 0.28.x, 0.27.x, etc.)
           LATEST_PER_MINOR=$(echo "$ALL_VERSIONS" | \
